@@ -1,0 +1,209 @@
+<!doctype html>
+<html dir="ltr">
+{% load static %}
+
+    <head>
+
+        <link rel="stylesheet" type="text/css" href="{% static 'univercity/css/bootstrap.css'%}">
+        <link rel="stylesheet" type="text/css" href="{% static 'univercity/css/fontawesome.css'%}">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js"></script>
+        
+
+
+
+        <title>mojtaba's Site</title>
+
+
+    </head>
+    <style>
+        .center {
+        text-align: center;
+        }
+
+        .pagination {
+        display: inline-block;
+        
+        }
+        .pagination li {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color .3s;
+        border: 1px solid #ddd;
+        margin: 0 4px;
+        cursor: pointer ;
+        }
+
+        .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color .3s;
+        border: 1px solid #ddd;
+        margin: 0 4px;
+        }
+
+        .pagination a.active {
+        background-color: #4CAF50;
+        color: white;
+        border: 1px solid #4CAF50;
+        }
+
+        .pagination a:hover:not(.active) {background-color: #ddd;}
+    </style>
+
+
+
+    <body class="text-center" style=" background-color =  white ">
+
+        <div class="container">
+            <br>
+            <div class="row">
+
+                <label >Choose per page:</label>
+
+                <select  id="per_page" style=" width : 150px ; ">
+                {% if perpage == "3" %}
+                <option value="3" selected="selected">3</option>
+                {% else %}
+                <option value="3" >3</option>
+                {% endif %}
+
+                {% if perpage == "5" %}
+                <option value="5" selected="selected">5</option>
+                {% else %}
+                <option value="5" >5</option>
+                {% endif %}
+
+                {% if perpage == "10" %}
+                <option value="10" selected="selected">10</option>
+                {% else %}
+                <option value="10" >10</option>
+                {% endif %}
+
+
+                {% if perpage == "all" %}
+                <option value="all" selected="selected">all</option>
+                {% else %}
+                <option value="all" >all</option>
+                {% endif %}
+                </select>
+
+
+            <br>
+
+            </div>
+            <br>
+            <br>
+            
+
+
+                <table class="table table-borded">
+                    <thead>
+                    <tr style=" background-color : green ; color : white ;">
+                        <th>Name</th>
+                        <th>Family</th>
+                        <th>Code</th>
+                    </tr>
+                    </thead>
+                    <thead>
+                    {% for student in result %}
+                    <tr style=" background-color : green ; color : white ;">
+                        <th>{{student.Name}}</th>
+                        <th>{{student.Family}}</th>
+                        <th>{{student.Code}}</th>
+                    </tr>
+                    {% endfor %}
+                    </thead>
+                
+                
+                
+                </table>
+        </div>
+        <h2>Pages</h2>
+
+        <div  class="pagination" >
+            {% if result.has_other_pages %}
+            <ul class="pagination" style=" display: flex ;">
+                    {% if result.has_previous %}
+                <li id="{{result.previous_page_number }}">&laquo;</li>
+                    {% else %}
+                <li class='disabled' style="cursor : not-allowed" >&laquo;</li>
+                    {% endif %}
+
+
+
+                    {% for i in result.paginator.page_range %}
+                    {% if result.number == i%}
+                <li class="active" style="cursor : not-allowed">{{ i }}</li>
+                    {% else %}
+                <li id="{{ i }}">{{ i }}</li>
+                    {% endif %}
+                    {% endfor %}    
+
+                    {% if result.has_next %}
+                <li id="{{result.next_page_number }}">&raquo;</li>
+                    {% else %}
+                <li class='disabled' style="cursor : not-allowed">&raquo;</li>
+            
+            </ul>
+            {% endif %}
+
+        {% endif %}    
+        </div>
+
+ 
+
+
+
+
+    </body>
+    <script src="{% static 'univercity/js/jquery-3.6.0.min.js'%}"></script>
+    <script src="{% static 'univercity/js/bootstrap.bundle.js'%}"></script>
+    <script src="{% static 'univercity/js/bootstrap.js'%}"></script>
+
+
+
+
+    <script>
+        $("#per_page").change(function(){
+            var value = $("#per_page").val()
+            window.location.href="?page=1&per_page="+value
+        })
+    
+        $('.pagination li').click(function(){
+            var pagenumber = this.id
+            var perpage = $("#per_page").val()
+            window.location.href="?page="+pagenumber+"&per_page="+perpage
+
+
+
+
+        })
+    </script>
+
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
